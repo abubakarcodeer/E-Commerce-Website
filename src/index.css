@@ -1,5 +1,88 @@
 @import "tailwindcss";
 
-.hide-scroll-bar::-webkit-scrollbar{
-display: none;
+/* Hide scrollbars while keeping functionality */
+.hide-scroll-bar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  @apply transition-colors duration-300;
+}
+
+/* Global background enhancement */
+body {
+  @apply bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900;
+  @apply text-gray-100;
+}
+
+/* Smooth scrolling */
+html {
+  @apply scroll-smooth;
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-900/50;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply from-cyan-400 to-purple-400;
+}
+
+/* Futuristic shadow effects */
+.glow-shadow {
+  @apply shadow-lg shadow-cyan-500/50;
+}
+
+.glow-shadow-purple {
+  @apply shadow-lg shadow-purple-500/50;
+}
+
+/* Gradient text */
+.gradient-text {
+  @apply bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent;
+}
+
+/* Glassmorphism effect */
+.glass-effect {
+  @apply backdrop-blur-md bg-white/10 border border-white/20;
+}
+
+/* Smooth animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(6, 182, 212, 0.5); }
+  50% { box-shadow: 0 0 40px rgba(6, 182, 212, 0.8); }
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Focus states for better accessibility */
+button:focus, a:focus, input:focus {
+  @apply outline-none ring-2 ring-cyan-500/50;
+}
+
+/* Smooth page transitions */
+.page-transition {
+  /* @apply animate-in fade-in duration-500; */
 }

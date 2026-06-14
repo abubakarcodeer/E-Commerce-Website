@@ -81,66 +81,75 @@ const AddProductPage = () => {
   }
 
   return (
-    <div>
-      <div className="flex justify-center  bg-green-300 items-center h-screen">
-        {loading && <Loader/>}
-        <div className="login_form min-w-[350px] w-120 bg-transparent backdrop-blur-lg px-8 lg:px-8 py-6 border border-green-100 rounded-xl shadow-md">
+    <div className='flex justify-center items-center min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden'>
+      {/* Animated background elements */}
+      <div className='fixed inset-0 overflow-hidden pointer-events-none -z-10'>
+        <div className='absolute top-0 left-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse'></div>
+        <div className='absolute bottom-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse' style={{animationDelay: '1s'}}></div>
+      </div>
 
-          <div className="mb-5">
-            <h2 className='text-center text-2xl font-bold text-green-500'>
-              Add Product
-            </h2>
-          </div>
-          <div className="mb-3">
+      {loading && <Loader/>}
+      <div className="login_form min-w-[350px] max-w-2xl w-full bg-transparent backdrop-blur-md px-8 lg:px-12 py-10 border border-purple-500/30 rounded-2xl shadow-2xl mx-4 relative overflow-hidden">
+        {/* Gradient overlay */}
+        <div className='absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10'></div>
+
+        <div className="relative z-10 mb-8">
+          <h2 className='text-center text-4xl font-black bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent'>
+            ➕ Add Product
+          </h2>
+        </div>
+
+        <div className="relative z-10 space-y-4">
+          <div className="">
             <input type="text" name='title' placeholder='Product Title' value={product.title} onChange={(e) => setProduct({
               ...product, title: e.target.value
             })}
-              className='bg-green-50 border border-green-200 px-2 py-2 w-full rounded-md outline-none placeholder-green-600' />
+              className='backdrop-blur-sm bg-slate-700/50 border border-purple-500/30 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-500/20 px-4 py-3 w-full rounded-xl outline-none placeholder-gray-400 text-white transition-all duration-300' />
           </div>
-          <div className="mb-3">
+          <div className="">
             <input type="number" placeholder='Product Price' name='price' value={product.price} onChange={(e) => setProduct({
               ...product, price: e.target.value
             })}
-              className='bg-green-50 border border-green-200 px-2 py-2 w-full rounded-md outline-none placeholder-green-600' />
+              className='backdrop-blur-sm bg-slate-700/50 border border-purple-500/30 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-500/20 px-4 py-3 w-full rounded-xl outline-none placeholder-gray-400 text-white transition-all duration-300' />
           </div>
-          <div className="mb-3">
-            <input type="text" placeholder='Product Image Url' name='image' value={product.productImageUrl} onChange={(e) => setProduct({
+          <div className="">
+            <input type="text" placeholder='Product Image URL' name='image' value={product.productImageUrl} onChange={(e) => setProduct({
               ...product, productImageUrl: e.target.value
             })}
-              className='bg-green-50 border border-green-200 px-2 py-2 w-full rounded-md outline-none placeholder-green-600' />
+              className='backdrop-blur-sm bg-slate-700/50 border border-purple-500/30 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-500/20 px-4 py-3 w-full rounded-xl outline-none placeholder-gray-400 text-white transition-all duration-300' />
           </div>
-          <div className="mb-3">
-            <input type="number" min={1} placeholder='Quantity' name='image' value={product.quantity} onChange={(e) => setProduct({
+          <div className="">
+            <input type="number" min={1} placeholder='Quantity' name='quantity' value={product.quantity} onChange={(e) => setProduct({
               ...product, quantity: e.target.value
             })}
-              className='bg-green-50 border border-green-200 px-2 py-2 w-full rounded-md outline-none placeholder-green-600' />
+              className='backdrop-blur-sm bg-slate-700/50 border border-purple-500/30 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-500/20 px-4 py-3 w-full rounded-xl outline-none placeholder-gray-400 text-white transition-all duration-300' />
           </div>
-          <div className="mb-3">
+          <div className="">
             <select value={product.category} onChange={(e) => setProduct({
               ...product, category: e.target.value
             })}
-              className='bg-green-50 border border-green-200 text-green-600 px-1 py-2 w-full rounded-md outline-none' >
-              <option disabled value=''>Select Product Category</option>
+              className='backdrop-blur-sm bg-slate-700/50 border border-purple-500/30 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-500/20 text-gray-400 px-4 py-3 w-full rounded-xl outline-none transition-all duration-300'>
+              <option disabled value=''>🏷️ Select Product Category</option>
               {
                 categoryList.map((item, index) => (
-                  <option key={index} className='capitalize' value={item.name}>{item.name}</option>
+                  <option key={index} className='capitalize bg-slate-900 text-white' value={item.name}>{item.name}</option>
                 ))
               }
             </select>
           </div>
 
-          <div className="mb-3">
+          <div className="">
             <textarea name='description' placeholder='Product Description' rows={5} value={product.description} onChange={(e) => setProduct({
               ...product, description: e.target.value
             })}
-              className='bg-green-50 border border-green-200 px-2 py-1 w-full rounded-md outline-none placeholder-green-600' >
+              className='backdrop-blur-sm bg-slate-700/50 border border-purple-500/30 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-500/20 px-4 py-3 w-full rounded-xl outline-none placeholder-gray-400 text-white transition-all duration-300 resize-none'>
 
             </textarea>
           </div>
 
-          <div className="mb-5">
-            <button type='button' onClick={addProductFunction} className='bg-green-500 hover:bg-green-600 w-full text-white text-center py-2 font-bold rounded-md'>
-              Add Product
+          <div className="pt-4">
+            <button type='button' onClick={addProductFunction} className='bg-gradient-to-r from-cyan-500 to-purple-600 hover:scale-105 active:scale-95 w-full text-white text-center py-3 font-bold rounded-xl transition-all duration-300 shadow-lg hover:shadow-cyan-500/50 text-lg'>
+              ✨ Add Product
             </button>
           </div>
         </div>

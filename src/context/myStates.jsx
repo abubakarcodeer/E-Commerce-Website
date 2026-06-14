@@ -1,8 +1,8 @@
 import MyContext from './myContext'
 import { toast } from 'react-toastify';
 import { db } from '../firebase/FirebaseConfig';
-import { collection, deleteDoc, doc, onSnapshot, orderBy, query, QuerySnapshot } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
+import { collection, deleteDoc, doc, onSnapshot, orderBy, query, QuerySnapshot, limit } from 'firebase/firestore';
+import { useEffect, useState, useCallback } from 'react';
 
 const myState = ({ children }) => {
 
@@ -10,68 +10,65 @@ const myState = ({ children }) => {
 
     const [getAllProduct, setGetAllProduct] = useState([])
 
-    const getAllProductFunction = async () => {
+    const getAllProductFunction = useCallback(async () => {
         setLoading(true)
 
         try {
             const q = query(
                 collection(db, 'products'),
-                orderBy('time')
+                orderBy('time'),
+                limit(100)
             )
 
-            const data = onSnapshot(q, (QuerySnapshot) => {
+            const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
                 let productArray = [];
                 QuerySnapshot.forEach(doc => {
                     productArray.push({ ...doc.data(), id: doc.id });
                 })
                 setGetAllProduct(productArray)
+            }, (error) => {
+                console.error('Error fetching products:', error);
+                toast.error('Failed to load products');
             })
 
-            return () => data
+            setLoading(false)
+            return unsubscribe
 
         } catch (error) {
-            console.log(error)
-            toast.error(error.code.split('/')[1].split('-').join(" "));
-
-        } finally {
+            console.error('Error in getAllProductFunction:', error);
+            toast.error('Failed to load products');
             setLoading(false)
         }
-
-    }
+    }, [])
 
     const [getAllOrder, setGetAllOrder] = useState([])
 
-    const getAllOrderFunction = async () => {
-        setLoading(true)
-
+    const getAllOrderFunction = useCallback(async () => {
         try {
             const q = query(
                 collection(db, 'order'),
-                orderBy('time')
+                orderBy('time'),
+                limit(100)
             )
 
-            const data = onSnapshot(q, (QuerySnapshot) => {
+            const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
                 let productArray = [];
                 QuerySnapshot.forEach(doc => {
                     productArray.push({ ...doc.data(), id: doc.id });
                 })
                 setGetAllOrder(productArray)
+            }, (error) => {
+                console.error('Error fetching orders:', error);
             })
 
-            return () => data
+            return unsubscribe
 
         } catch (error) {
-            console.log(error)
-            toast.error(error.code.split('/')[1].split('-').join(" "));
-
-        } finally {
-            setLoading(false)
+            console.error('Error in getAllOrderFunction:', error);
         }
+    }, [])
 
-    }
-
-    const orderDelete = async (id) => {
-
+    const orderDelete = useCallback(async (id) => {
         setLoading(true)
 
         try {
@@ -80,50 +77,55 @@ const myState = ({ children }) => {
             getAllOrderFunction()
 
         } catch (error) {
-            console.log(error)
-
+            console.error('Error deleting order:', error);
+            toast.error('Failed to delete order');
         } finally {
             setLoading(false)
         }
-
-    }
+    }, [getAllOrderFunction])
 
     const [getAllUsers, setGetAllUser] = useState([])
 
-    const getAllUserFunction = async (id) => {
-
-        setLoading(true)
-
+    const getAllUserFunction = useCallback(async () => {
         try {
             const q = query(
                 collection(db, 'users'),
-                orderBy('time')
+                orderBy('time'),
+                limit(100)
             )
 
-            const data = onSnapshot(q, (QuerySnapshot) => {
+            const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
                 let userArray = [];
                 QuerySnapshot.forEach(doc => {
                     userArray.push({ ...doc.data(), id: doc.id });
                 })
                 setGetAllUser(userArray)
+            }, (error) => {
+                console.error('Error fetching users:', error);
             })
 
-            return () => data
+            return unsubscribe
 
         } catch (error) {
-            console.log(error)
-            toast.error(error.code.split('/')[1].split('-').join(" "));
-
-        } finally {
-            setLoading(false)
+            console.error('Error in getAllUserFunction:', error);
         }
-    }
+    }, [])
 
     useEffect(() => {
-        getAllProductFunction()
-        getAllOrderFunction()
-        getAllUserFunction()
-    }, [])
+        let unsubscribeProduct, unsubscribeOrder, unsubscribeUser;
+        
+        (async () => {
+            unsubscribeProduct = await getAllProductFunction()
+            unsubscribeOrder = await getAllOrderFunction()
+            unsubscribeUser = await getAllUserFunction()
+        })()
+        
+        return () => {
+            if (unsubscribeProduct) unsubscribeProduct()
+            if (unsubscribeOrder) unsubscribeOrder()
+            if (unsubscribeUser) unsubscribeUser()
+        }
+    }, [getAllProductFunction, getAllOrderFunction, getAllUserFunction])
 
 
     return (

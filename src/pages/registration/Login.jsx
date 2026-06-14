@@ -72,35 +72,43 @@ const Login = () => {
     }
 
     return (
-        <div className='flex justify-center bg-green-300 items-center h-screen'>
+        <div className='flex justify-center items-center min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden'>
+            {/* Animated background elements */}
+            <div className='fixed inset-0 overflow-hidden pointer-events-none -z-10'>
+              <div className='absolute top-0 left-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse'></div>
+              <div className='absolute bottom-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse' style={{animationDelay: '1s'}}></div>
+            </div>
+            
             {loading && <Loader />}
-            <div className="login_form min-w-[350px] w-120 bg-transparent backdrop-blur-lg px-8 lg:px-8 py-6 border border-green-100 rounded-xl shadow-md">
-
-                <div className="mb-5">
-                    <h2 className='text-center text-2xl font-bold text-green-500'>
-                        Login
+            <div className="login_form min-w-[350px] w-120 relative backdrop-blur-md bg-gradient-to-br from-slate-800/50 to-slate-900/50 px-8 lg:px-10 py-10 border border-purple-500/30 rounded-2xl shadow-2xl hover:shadow-2xl hover:shadow-cyan-500/30 transition-all duration-300 overflow-hidden">
+                {/* Gradient overlay */}
+                <div className='absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10'></div>
+                
+                <div className="relative z-10 mb-6">
+                    <h2 className='text-center text-3xl font-black bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent'>
+                        🔐 Login
                     </h2>
                 </div>
-                <div className="mb-3">
-                    <input type="email" placeholder='Email Adress' onInput={(e) => setUserLogin({
+                <div className="mb-4 relative z-10">
+                    <input type="email" placeholder='Email Address' onInput={(e) => setUserLogin({
                         ...userLogin, email: e.target.value
                     })}
-                        className='bg-green-50 border border-green-200 px-2 py-2 w-full rounded-md outline-none placeholder-green-600' />
+                        className='backdrop-blur-sm bg-slate-700/50 border border-purple-500/30 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-500/20 px-4 py-3 w-full rounded-xl outline-none placeholder-gray-400 text-white transition-all duration-300' />
                 </div>
-                <div className="mb-5">
+                <div className="mb-6 relative z-10">
                     <input type="password" placeholder='Password' onInput={(e) => setUserLogin({
                         ...userLogin, password: e.target.value
                     })}
-                        className='bg-green-50 border border-green-200 px-2 py-2 w-full rounded-md outline-none placeholder-green-600' />
+                        className='backdrop-blur-sm bg-slate-700/50 border border-purple-500/30 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-500/20 px-4 py-3 w-full rounded-xl outline-none placeholder-gray-400 text-white transition-all duration-300' />
                 </div>
-                <div className="mb-5">
-                    <button onClick={userLoginFunction} type='button' className='bg-green-500 hover:bg-green-600 w-full text-white text-center py-2 font-bold rounded-md'>
-                        Login
+                <div className="mb-6 relative z-10">
+                    <button onClick={userLoginFunction} type='button' className='bg-gradient-to-r from-cyan-500 to-purple-600 hover:scale-105 active:scale-95 w-full text-white text-center py-3 font-bold rounded-xl transition-all duration-300 shadow-lg hover:shadow-cyan-500/50'>
+                        ✨ Login
                     </button>
                 </div>
 
-                <div>
-                    <h2 className='text-black'>Don't Have an account <Link className='text-green-500 font-bold ' to={'/signup'}>Signup</Link></h2>
+                <div className="relative z-10">
+                    <h2 className='text-center text-gray-300'>Don't have an account? <Link className='text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500 font-bold hover:from-purple-400 hover:to-pink-500 transition-all duration-300' to={'/signup'}>Signup here</Link></h2>
                 </div>
             </div>
 

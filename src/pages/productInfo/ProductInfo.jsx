@@ -111,20 +111,16 @@ const ProductInfo = () => {
                       {product?.description}
                     </p>
                   </div>
-                  <div className="mb6">
-                    <div className="flex flex-wrap items-center mb-6">
+                   <div className="">
+                    <div className="flex flex-wrap items-center gap-4">
                       {cartItems.some(p => p.id === product?.id)
                         ?
-                        <button onClick={() => deleteCart(product)} className='bg-pink-700
-                                                    hover:bg-pink-600 w-full text-white py-[4px]
-                                                    rounded-lg font-bold'>
-                          Delete from Cart
+                        <button onClick={() => deleteCart(product)} className='w-full bg-gradient-to-r from-red-600 to-pink-600 hover:scale-105 active:scale-95 text-white py-4 px-6 rounded-xl font-bold text-lg transition-all duration-300 shadow-lg'>
+                          🗑️ Delete from Cart
                         </button>
                         :
-                        <button onClick={() => addCart(product)} className='bg-green-500
-                                                    hover:bg-green-600 w-full text-white py-[4px]
-                                                    rounded-lg font-bold'>
-                          Add To Cart
+                        <button onClick={() => addCart(product)} className='w-full bg-gradient-to-r from-cyan-500 to-purple-600 hover:scale-105 active:scale-95 text-white py-4 px-6 rounded-xl font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-cyan-500/50'>
+                          ➕ Add To Cart
                         </button>
                       }
                     </div>

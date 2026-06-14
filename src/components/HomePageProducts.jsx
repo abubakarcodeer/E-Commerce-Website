@@ -1,37 +1,23 @@
-import React, { useContext, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useContext, useMemo } from 'react'
 import myContext from '../context/myContext'
 import Loader from './Loader'
-import { useDispatch, useSelector } from 'react-redux'
-import { addToCart, deleteFromCart } from '../redux/cartSlice'
-import { toast } from 'react-toastify'
+import ProductCard from './ProductCard'
 
 const HomePageProducts = () => {
 
-    const navigate = useNavigate()
-
     const { loading, getAllProduct } = useContext(myContext)
-    const cartItems = useSelector((state) => state.cart)
-    const dispatch = useDispatch()
 
-    const addCart = (item) => {
-        dispatch(addToCart(item))
-        toast.success("Add to cart")
-    }
-
-    const deleteCart = (item) => {
-        dispatch(deleteFromCart(item))
-        toast.success("Delete cart")
-    }
-
-    useEffect(() => {
-        localStorage.setItem('cart', JSON.stringify(cartItems))
-    }, [cartItems])
+    // Memoize sliced products to avoid unnecessary calculations
+    const displayProducts = useMemo(() => getAllProduct.slice(0, 8), [getAllProduct])
 
     return (
-        <div className='mt-10'>
-            <div>
-                <h1 className='text-center mb-5 text-2xl dark:text-gray-300 font-semibold'>Bestselling Products</h1>
+        <div className='mt-16 mb-10'>
+            <div className='relative mb-12'>
+                <div className='absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 blur-3xl -z-10'></div>
+                <h1 className='text-center text-4xl md:text-5xl font-black bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent drop-shadow-lg'>
+                    ⚡ Bestselling Products
+                </h1>
+                <p className='text-center text-gray-400 mt-2 text-sm md:text-base'>Discover our premium collection</p>
             </div>
 
             <section className='text-gray-600 body-font'>
@@ -39,44 +25,9 @@ const HomePageProducts = () => {
                     {loading && <Loader />}
                     <div className='flex flex-wrap -m-4'>
                         {
-                            getAllProduct.slice(0, 8).map((item, index) => {
-                                const { productImageUrl, id, title, price } = item
-                                return (
-                                    <div key={index} className='p-4 w-full md:w-1/4'>
-                                        <div className='h-full border border-gray-300 rounded-xl overflow-hidden shadow-md cursor-pointer'>
-                                            <img onClick={() => navigate(`/productinfos/${id}`)} className='lg:h-80 h-96 w-full' src={productImageUrl} alt="img" />
-                                            <div className='p-6'>
-                                                <h2 className='tracking-widest text-xs title-font font-medium text-gray-400 mb-1'>
-                                                    E-Pak
-                                                </h2>
-                                                <h1 className='title-font text-lg font-medium text-gray-900 dark:text-gray-300 mb-3'>
-                                                    {title.substring(0, 25)}
-                                                </h1>
-                                                <h1 className='title-font text-lg font-medium text-gray-900 dark:text-gray-300 mb-3'>
-                                                    Rs.{price}
-                                                </h1>
-
-                                                <div className='flex justify-center'>
-                                                    {cartItems.some(p => p.id === item.id)
-                                                        ?
-                                                        <button onClick={() => deleteCart(item)} className='bg-pink-700
-                                                    hover:bg-pink-600 w-full text-white py-[4px]
-                                                    rounded-lg font-bold'>
-                                                            Delete from Cart
-                                                        </button>
-                                                        :
-                                                        <button onClick={() => addCart(item)} className='bg-green-500
-                                                    hover:bg-green-600 w-full text-white py-[4px]
-                                                    rounded-lg font-bold'>
-                                                            Add To Cart
-                                                        </button>
-                                                    }
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )
-                            })
+                            displayProducts.map((item) => (
+                                <ProductCard key={item.id} item={item} />
+                            ))
                         }
                     </div>
                 </div>
@@ -85,4 +36,4 @@ const HomePageProducts = () => {
     )
 }
 
-export default HomePageProducts
+export default React.memo(HomePageProducts)

@@ -30,46 +30,44 @@ const AllProduct = () => {
 
   return (
     <Layout>
-      <div className='pt-10 dark:bg-gray-800'>
+      <div className='py-12 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 min-h-screen'>
         <div>
-          <h1 className='text-center mb-5 text-2xl dark:text-gray-300 font-semibold'>All Products</h1>
+          <h1 className='text-center mb-8 text-5xl font-black bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent'>🛍️ All Products</h1>
         </div>
 
-        <section className='text-gray-600 body-font'>
-          <div className='container px-5 py-5 mx-auto'>
+        <section className='text-gray-300 body-font'>
+          <div className='container px-5 py-8 mx-auto'>
             {loading && <Loader />}
-            <div className='flex flex-wrap -m-4'>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
               {
                 getAllProduct.map((item, index) => {
                   const { productImageUrl, id, title, price } = item
                   return (
-                    <div key={index} className='p-4 w-full md:w-1/4'>
-                      <div className='h-full border border-gray-300 rounded-xl overflow-hidden shadow-md cursor-pointer'>
-                        <img onClick={() => navigate(`/productinfos/${id}`)} className='lg:h-80 h-96 w-full' src={productImageUrl} alt="img" />
+                    <div key={index} className='group'>
+                      <div className='h-full relative backdrop-blur-sm bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-purple-500/30 hover:border-cyan-400/60 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-cyan-500/40 transition-all duration-300 hover:scale-105'>
+                        <div className='relative overflow-hidden h-72 bg-slate-700/50'>
+                          <img onClick={() => navigate(`/productinfos/${id}`)} className='w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 cursor-pointer' src={productImageUrl} alt="img" />
+                        </div>
                         <div className='p-6'>
-                          <h2 className='tracking-widest text-xs title-font font-medium text-gray-400 mb-1'>
+                          <h2 className='tracking-widest text-xs title-font font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-2'>
                             E-Pak
                           </h2>
-                          <h1 className='title-font text-lg font-medium text-gray-900 dark:text-gray-300 mb-3'>
-                            {title.substring(0, 25)}
+                          <h1 className='title-font text-lg font-bold text-white mb-3 line-clamp-2'>
+                            {title}
                           </h1>
-                          <h1 className='title-font text-lg font-medium text-gray-900 dark:text-gray-300 mb-3'>
+                          <h1 className='title-font text-2xl font-black bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-4'>
                             Rs{price}
                           </h1>
 
-                          <div className='flex justify-center'>
+                          <div className='flex justify-center gap-2'>
                             {cartItems.some(p => p.id === item.id)
                               ?
-                              <button onClick={() => deleteCart(item)} className='bg-pink-700
-                                                    hover:bg-pink-600 w-full text-white py-[4px]
-                                                    rounded-lg font-bold'>
-                                Delete from Cart
+                              <button onClick={() => deleteCart(item)} className='w-full bg-gradient-to-r from-red-600 to-pink-600 hover:scale-105 active:scale-95 text-white py-2 px-4 rounded-lg font-bold transition-all duration-300'>
+                                🗑️ Delete
                               </button>
                               :
-                              <button onClick={() => addCart(item)} className='bg-green-500
-                                                    hover:bg-green-600 w-full text-white py-[4px]
-                                                    rounded-lg font-bold'>
-                                Add To Cart
+                              <button onClick={() => addCart(item)} className='w-full bg-gradient-to-r from-cyan-500 to-purple-600 hover:scale-105 active:scale-95 text-white py-2 px-4 rounded-lg font-bold transition-all duration-300'>
+                                ➕ Add to Cart
                               </button>
                             }
                           </div>
